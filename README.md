@@ -10,4 +10,3 @@ Solutions for Com Sci 31 taught by professor Smallberg in Fall 2016
 | 5 | 98 |
 | 6 | 96 | 
 | 7 | 98 |
-| 8 | ? |
