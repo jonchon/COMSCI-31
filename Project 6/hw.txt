@@ -1,0 +1,176 @@
+1) 
+    a)
+    int main()
+    {
+        int arr[3] = { 5, 10, 15 };
+        int* ptr = arr;
+
+        *ptr = 30;          // set arr[0] to 30
+        *(ptr + 1) = 20;      // set arr[1] to 20
+        ptr += 2;
+        ptr[0] = 10;        // set arr[2] to 10
+
+	int i = 2;
+
+        while (ptr - i <= arr + i)
+        {
+            cout << *(ptr-i) << endl;    // print values
+	    ptr++;
+        }
+    }
+ 
+    b) an & is required to change the last parameter to a call-by-reference.   Without the &, the function makes a copy of *pToMax and doesn't actually return the changed value.
+
+    void findMax(int arr[], int n, int* &pToMax)
+    {
+        if (n <= 0) 
+            return;      // no items, no maximum!
+    
+        pToMax = arr;
+
+        for (int i = 1; i < n; i++)
+        {
+            if (arr[i] > *pToMax)
+                 pToMax = arr + i;
+        }
+    }       
+
+    int main()
+    {
+        int nums[4] = { 5, 3, 15, 6 };
+        int* ptr;
+
+        findMax(nums, 4, ptr);
+        cout << "The maximum is at address " << ptr << endl;
+        cout << "It's at position " << ptr - nums << endl;
+        cout << "Its value is " << *ptr << endl;
+    }
+
+
+    c) the pointer ptr was never initialized. Thus, the new operator must be added.
+
+	void computeCube(int n, int* ncubed)
+    {
+        *ncubed = n * n * n;
+    }
+
+    int main()
+    {
+        int* ptr;
+	   ptr = new int;
+        computeCube(5, ptr);
+        cout << "Five cubed is " << *ptr << endl;
+    }
+
+
+
+d) The while-statement, if-statement, and return-statement are wrong. They all compare the addresses of str1 and str2 instead of the values associated with the addresses.
+
+      // return true if two C strings are equal
+    bool strequal(const char str1[], const char str2[])
+    {
+        while (*str1 != 0  &&  *str2 != 0)
+        {
+            if (*str1 != *str2)  // compare corresponding characters
+                return false;
+            str1++;            // advance to the next character
+            str2++;
+        }
+        return *str1 == *str2;   // both ended at same time?
+    }
+
+    int main()
+    {
+        char a[15] = "Zhao";
+        char b[15] = "Zhou";
+
+        if (strequal(a,b))
+            cout << "They're the same person!\n";
+    }
+
+   e) The program is trying to access an array that doesn't exist. In getPtrToArray, the program makes a local variable for the array. However, outside the function, the array does not exit. Thus, in the main routine, anArrary does not exist.
+
+2) 	a)double *cat;
+	b)double mouse [5];
+	c)cat = &mouse[4];
+	d)*cat = 25;
+	e)*(mouse + 3) = 42;
+	f)cat-=3;
+	g)cat[1] = 54;
+	h)cat[0] = 17;
+	i)bool b = (*cat == *(cat+1));
+	j)bool d = (cat == mouse);
+
+3)
+a)
+    double mean(const double* scores, int numScores)
+    {
+        const double* ptr = scores;
+        double tot = 0;
+	int i = 0;
+        while ((ptr+i) != scores + numScores)
+        {
+            tot += *(ptr+i);
+            i++;
+        }
+        return tot/numScores;
+    }
+
+b)
+    // This function searches through str for the character chr.
+    // If the chr is found, it returns a pointer into str where
+    // the character was first found, otherwise nullptr (not found).
+
+    const char* findTheChar(const char* str, char chr)
+    {
+	for (int k = 0; *(str+k) != 0; k++)
+	{
+	     if (*(str+k) == chr)
+	         return (str+k);
+	} 
+        return nullptr;
+    }
+
+c)
+    // This function searches through str for the character chr.
+    // If the chr is found, it returns a pointer into str where
+    // the character was first found, otherwise nullptr (not found).
+
+    const char* findTheChar(const char* str, char chr)
+    {
+        while (*str != 0)
+	{`		
+            if (*str == chr)
+                return str;
+	    str++;
+	}
+        return nullptr;
+    }
+
+4) 
+The very first output (cout << &array[5] - ptr << endl;) prints out 3 because &array[5]-ptr prints out the number of indexed vars between them, which is 3 since there was a line (ptr+=2) that made pointer into the address of array[3].
+The next six cout statements prints out "4", "79", "-1", "9", "22", "19". swap1 does nothing since it changes the address associated with the local variables a and b, but does not change it in main. In addition, even if swap1 was written in main for &array and &array[1], it would not work since an array var is constant. swap2 does work and swaps "-1" and "4" since the values of the int located at the two addresses are changed. Thus, when the cout statement comes, it prints out the array in order.
+
+
+5)
+void removeS(char* ptr)
+{
+    char* remember = ptr;
+    while (*ptr != '\0')
+    {
+        if (*ptr != 's' && *ptr != 'S')
+            ptr++;
+        else
+        {
+            remember = ptr;
+            while (*ptr != '\0')
+            {
+                *ptr = *(ptr+1);
+                ptr++;
+            }
+            ptr = remember;
+        }
+    }
+}
+
+
